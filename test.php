@@ -1,7 +1,14 @@
 <?php
 
-	//Leyendo el archivo
-	$fileLines = file('entrada.txt');
+	//Leyendo el archivo de entrada
+	$fileLines = file('input.txt');
+	$output = 'output.txt';
+	//Borrar archivo de salida si ya existe.
+	if(file_exists($output)){
+
+		unlink($output);
+	}
+
 	foreach ($fileLines as $key => $line) {
 	
 		if($key != 0){
@@ -17,6 +24,7 @@
 			}
 
 			$acumMin = 0;
+			$max = 0;
 			//1 <= N <= 100
 			for ($i = $n; $i >=1; $i--) { 
 				
@@ -37,9 +45,15 @@
 					}
 				}
 				$acumMin += $min;
+				if($max < $min){
+
+					$max = $min;
+				}
 				echo "Para " . $i . " el minimo es: " . $min . "<br>";
 			}
-			echo "Promedio:  " . ($acumMin/$n) . "<br>";
+			//echo "Para " . $i . " el minimo es: " . $min . "<br>";
+			$lineOut = (number_format((float)($acumMin/$n), 2, '.', '')) . " " . $max . "\n";
+			file_put_contents($output, $lineOut, FILE_APPEND);
 			//var_dump($coins);
 			//echo $n . " " . $amount; 
 		}
